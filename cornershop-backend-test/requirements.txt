@@ -7,7 +7,9 @@ celery==4.3.0
 certifi==2020.6.20
 click==7.1.2
 coverage==5.2
+crispy-bootstrap5==0.4
 Django==3.0.8
+django-crispy-forms==1.11.2
 django-extensions==3.0.2
 django-redis==4.11.0
 djangorestframework==3.11.0
