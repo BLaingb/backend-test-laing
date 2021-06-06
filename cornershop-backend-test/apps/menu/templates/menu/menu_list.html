@@ -1,0 +1,28 @@
+{% extends "menu/base.html" %}
+
+{% block content %}
+    <header>
+        <h2>Menus</h2>
+        <!-- TODO: Add url to add menu -->
+        <a class="btn btn-primary" href="#">Add Menu</a> 
+    </header>
+    <main class="mt-2">
+        {% for menu in object_list %}
+            <div class="card w-90 p-3">
+                <span class="d-flex flex-row align-items-baseline">
+                    <h4 class="d-inline me-3">{{ menu.date }}</h4>
+                    <span class="fw-light">{{ menu.meal_set | length }} meals requested</span>
+                </span>
+                <ul>
+                    {% for option in menu.meal_options.all %}
+                        <li>{{ forloop.counter }}. {{ option }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% empty %}
+            <div class="card w-90 p-3">
+                <h4>No menus have been added.</h4>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}
