@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "rest_framework",
     "django_extensions",
     "crispy_forms",
@@ -238,6 +239,8 @@ LOGGING = {
         },
     },
 }
+
+SITE_ID = 1
 
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

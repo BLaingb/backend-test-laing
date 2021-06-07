@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 import datetime
-
+from django.contrib.sites.models import Site
 
 class ActiveOnlyManager(models.Manager):
     def get_queryset(self):
@@ -40,6 +40,15 @@ class Menu(models.Model):
 
     def __str__(self) -> str:
         return f"Menu of {self.date}"
+
+    def create_meal_url(self):
+        return f"/menu/{self.id}/"
+
+    def get_message(self):
+        url = Site.objects.get_current().domain
+        url = f"{url}{self.create_meal_url()}"
+        return f"Hello! Please select your meal choice for {self.date} at {url}"
+
 
 
 class Meal(models.Model):
