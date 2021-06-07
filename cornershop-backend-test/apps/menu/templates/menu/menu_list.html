@@ -60,7 +60,9 @@ $.ajaxSetup({
 });
 function sendNotification(menuId) {
     $.post("/menu/" + menuId + "/notify/", undefined, function (result) {
-        console.log(result)
+        if (result.message) {
+            alert(result.message);
+        }
     });
 }
 </script>

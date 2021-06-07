@@ -76,4 +76,4 @@ class MenuNotify(View):
                     }
                 )
         menu.notify()
-        return JsonResponse({"success": True})
+        return JsonResponse({"success": True, "message": "Notification sent!"})
