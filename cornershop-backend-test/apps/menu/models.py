@@ -11,7 +11,7 @@ class ActiveOnlyManager(models.Manager):
 
 class MealOption(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.TextField(max_length=64, blank=False, null=False)
+    name = models.CharField(max_length=64, blank=False, null=False)
     description = models.TextField(max_length=128, blank=True, default="")
     is_active = models.BooleanField(default=True)
 
@@ -57,7 +57,7 @@ class Meal(models.Model):
     selected_option = models.ForeignKey(
         MealOption, null=False, on_delete=models.PROTECT
     )
-    employee = models.TextField(max_length=64)
+    employee = models.CharField(max_length=64, blank=False)
     note = models.TextField(max_length=128, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

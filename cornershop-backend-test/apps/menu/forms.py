@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import widgets
 from django.utils import timezone
-from .models import Menu
+from .models import Menu, Meal
 
 
 class MenuForm(forms.ModelForm):
@@ -17,3 +18,17 @@ class MenuForm(forms.ModelForm):
         if data < timezone.now().date():
             raise forms.ValidationError("Date cannot be in the past!")
         return data
+
+
+class MealForm(forms.ModelForm):
+    class Meta:
+        model = Meal
+        fields = ["employee", "menu", "selected_option", "note"]
+        widgets = {"menu": widgets.HiddenInput()}
+
+    def clean_selected_option(self):
+        menu = self.cleaned_data["menu"]
+        selected_option = self.cleaned_data["selected_option"]
+        if selected_option not in menu.meal_options:
+            raise forms.ValidationError("This option is not available!")
+        return selected_option
