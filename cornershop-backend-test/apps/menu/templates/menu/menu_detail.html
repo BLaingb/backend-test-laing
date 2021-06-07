@@ -1,0 +1,27 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+    <header>
+        <h2>{{ object }}</h2>
+    </header>
+    <main class="mt-2">
+        <div class="card w-90 p-3 shadow-sm">
+            {% if object.is_over %}
+                <h4>All employees should have answered by now</h4>
+            {% else %}
+                <h4>{{ object.limit | timeuntil }} left for employees to choose</h4>
+            {% endif %}
+            <ul>
+                {% for meal in object.meal_set.all %}
+                    <li>
+                        {{ meal }}
+                        {% if meal.note %}
+                            <p class="fw-light">{{ meal.note }}</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+{% endblock %}
+

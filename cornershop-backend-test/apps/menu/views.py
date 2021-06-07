@@ -1,11 +1,13 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
+from django.utils import timezone, timesince
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from .models import Meal, MealOption, Menu
 from .forms import MealForm, MealOptionForm, MenuForm
 from backend_test.utils.slack import send_menu_slack
+from datetime import datetime
 
 # Create your views here.
 class MealOptionCreateView(CreateView):
@@ -28,6 +30,10 @@ class MenuCreateView(CreateView):
             send_menu_slack.delay(form.instance.get_message())
             form.instance.notification_sent_at = timezone.now()
         return super().form_valid(form)
+
+
+class MenuDetailView(DetailView):
+    model = Menu
 
 
 class MealCreateView(CreateView):

@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from django.utils import timezone
+from django.utils import timezone, timesince
 import datetime
 from django.contrib.sites.models import Site
 
@@ -50,6 +50,13 @@ class Menu(models.Model):
         url = f"{url}{self.create_meal_url()}"
         return f"Hello! Please select your meal choice for {self.date} at {url}"
 
+    @property
+    def limit(self):
+        return datetime.datetime.combine(self.date, self.select_by_time)
+
+    @property
+    def is_over(self):
+        return datetime.datetime.combine(self.date, self.select_by_time) < datetime.datetime.now()
 
 
 class Meal(models.Model):
@@ -69,4 +76,4 @@ class Meal(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f"{self.employee}"
+        return f"{self.employee} - {self.selected_option}"

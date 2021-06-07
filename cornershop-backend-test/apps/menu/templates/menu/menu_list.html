@@ -13,6 +13,7 @@
                     <h4 class="d-inline me-3">{{ menu.date }}</h4>
                     <span class="fw-light">{{ menu.meal_set.all | length }} meals requested</span>
                 </span>
+                <a href="{% url 'menu-detail' menu.id %}">View requested meals</a>
                 <ul>
                     {% for option in menu.meal_options.all %}
                         <li>{{ forloop.counter }}. {{ option }}</li>
