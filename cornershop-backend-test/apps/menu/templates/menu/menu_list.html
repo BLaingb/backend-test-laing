@@ -10,7 +10,7 @@
             <div class="card w-90 p-3 mb-2 shadow-sm">
                 <span class="d-flex flex-row align-items-baseline">
                     <h4 class="d-inline me-3">{{ menu.date }}</h4>
-                    <span class="fw-light">{{ menu.meal_set | length }} meals requested</span>
+                    <span class="fw-light">{{ menu.meal_set.all | length }} meals requested</span>
                 </span>
                 <ul>
                     {% for option in menu.meal_options.all %}
