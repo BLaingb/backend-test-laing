@@ -34,6 +34,7 @@ class Menu(models.Model):
         default=datetime.time(11, 00),
         help_text="Up to what time can employees register their meal choice? (HH:MM:SS)",
     )
+    notification_sent_at = models.DateTimeField(null=True, default=None)
 
     class Meta:
         ordering = ["-date"]

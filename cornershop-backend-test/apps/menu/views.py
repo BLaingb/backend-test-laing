@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.views.generic.base import TemplateView
 from .models import Meal, Menu
 from .forms import MealForm, MenuForm
@@ -19,6 +20,7 @@ class MenuCreateView(CreateView):
     def form_valid(self, form: MenuForm):
         if form.cleaned_data["notify_now"]:
             send_menu_slack.delay(form.instance.get_message())
+            form.instance.notification_sent_at = timezone.now()
         return super().form_valid(form)
 
 
