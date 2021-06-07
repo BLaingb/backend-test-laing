@@ -3,12 +3,11 @@
 {% block content %}
     <header>
         <h2>Menus</h2>
-        <!-- TODO: Add url to add menu -->
-        <a class="btn btn-primary" href="#">Add Menu</a> 
+        <a class="btn btn-primary" href="{% url 'menu-create' %}">Add Menu</a> 
     </header>
     <main class="mt-2">
         {% for menu in object_list %}
-            <div class="card w-90 p-3">
+            <div class="card w-90 p-3 mb-2 shadow-sm">
                 <span class="d-flex flex-row align-items-baseline">
                     <h4 class="d-inline me-3">{{ menu.date }}</h4>
                     <span class="fw-light">{{ menu.meal_set | length }} meals requested</span>
