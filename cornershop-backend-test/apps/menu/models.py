@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 import datetime
 
 
@@ -25,9 +26,14 @@ class MealOption(models.Model):
 
 class Menu(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    date = models.DateField(unique=True, null=False)
+    date = models.DateField(
+        unique=True, null=False, default=timezone.now, help_text="YYYY-MM-DD"
+    )
     meal_options = models.ManyToManyField(MealOption, related_name="menus")
-    select_by_time = models.TimeField(default=datetime.time(15, 00))
+    select_by_time = models.TimeField(
+        default=datetime.time(11, 00),
+        help_text="Up to what time can employees register their meal choice? (HH:MM:SS)",
+    )
 
     class Meta:
         ordering = ["-date"]
