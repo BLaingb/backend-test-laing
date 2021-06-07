@@ -3,11 +3,17 @@ from django.views.generic import ListView, CreateView
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.generic.base import TemplateView
-from .models import Meal, Menu
-from .forms import MealForm, MenuForm
+from .models import Meal, MealOption, Menu
+from .forms import MealForm, MealOptionForm, MenuForm
 from backend_test.utils.slack import send_menu_slack
 
 # Create your views here.
+class MealOptionCreateView(CreateView):
+    model = MealOption
+    form_class = MealOptionForm
+    success_url = reverse_lazy('meal-option-create')
+
+
 class MenuListView(ListView):
     model = Menu
 

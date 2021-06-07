@@ -1,7 +1,20 @@
 from django import forms
 from django.forms import widgets
 from django.utils import timezone
-from .models import Menu, Meal
+from .models import MealOption, Menu, Meal
+
+
+class MealOptionForm(forms.ModelForm):
+    class Meta:
+        model = MealOption
+        fields = ["name", "description"]
+
+    def clean_name(self):
+        # Validated here instead of on DB because there could be other instances with the same name, but inactive.
+        data = self.cleaned_data["name"]
+        if MealOption.objects.filter(name=data).exists():
+            raise forms.ValidationError(f"There is already a menu option with name {data}")
+        return data
 
 
 class MenuForm(forms.ModelForm):

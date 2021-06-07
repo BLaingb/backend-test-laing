@@ -4,6 +4,7 @@
     <header>
         <h2>Menus</h2>
         <a class="btn btn-primary" href="{% url 'menu-create' %}">Add Menu</a> 
+        <a class="btn btn-primary" href="{% url 'meal-option-create' %}">Add Meal Option</a> 
     </header>
     <main class="mt-2">
         {% for menu in object_list %}

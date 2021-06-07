@@ -1,0 +1,17 @@
+{% extends "menu/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <header>
+        <a class="btn btn-primary" href="{% url 'menu-list' %}">Back to menus</a> 
+        <h2>Create Meal Option</h2>
+    </header>
+    <main class="mt-2">
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-success">Save Meal Option</button>
+        </form>
+    </main>
+{% endblock %}
