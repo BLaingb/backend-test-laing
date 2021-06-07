@@ -1,8 +1,9 @@
 import uuid
 from django.db import models
-from django.utils import timezone, timesince
+from django.utils import timezone
 import datetime
 from django.contrib.sites.models import Site
+from backend_test.utils.slack import send_menu_slack
 
 class ActiveOnlyManager(models.Manager):
     def get_queryset(self):
@@ -49,6 +50,12 @@ class Menu(models.Model):
         url = Site.objects.get_current().domain
         url = f"{url}{self.create_meal_url()}"
         return f"Hello! Please select your meal choice for {self.date} at {url}"
+
+    def notify(self, save=True):
+        send_menu_slack(self.get_message())
+        self.notification_sent_at = timezone.now()
+        if save:
+            self.save()
 
     @property
     def limit(self):
