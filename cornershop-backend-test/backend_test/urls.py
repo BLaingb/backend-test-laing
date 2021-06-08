@@ -22,6 +22,7 @@ from .utils.healthz import healthz
 urlpatterns = [
     path("healthz", healthz, name="healthz"),
     path("menu/", include('apps.menu.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 
 if settings.DEBUG:    

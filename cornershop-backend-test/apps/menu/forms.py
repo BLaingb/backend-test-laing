@@ -34,6 +34,11 @@ class MenuForm(forms.ModelForm):
 
 
 class MealForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        qs = kwargs.pop('meal_options')
+        super(MealForm, self).__init__(*args, **kwargs)
+        self.fields['selected_option'].queryset = qs
+
     class Meta:
         model = Meal
         fields = ["employee", "menu", "selected_option", "note"]
@@ -42,6 +47,6 @@ class MealForm(forms.ModelForm):
     def clean_selected_option(self):
         menu = self.cleaned_data["menu"]
         selected_option = self.cleaned_data["selected_option"]
-        if selected_option not in menu.meal_options:
+        if selected_option not in menu.meal_options.all():
             raise forms.ValidationError("This option is not available!")
         return selected_option

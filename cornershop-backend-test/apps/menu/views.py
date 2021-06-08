@@ -46,8 +46,14 @@ class MealCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         menu = get_object_or_404(Menu, id=self.kwargs["menu"])
         context["date"] = menu.date
-        context["form"]["selected_option"].queryset = menu.meal_options
+        context["form"]["selected_option"].queryset = menu.meal_options.all()
         return context
+
+    def get_form_kwargs(self):
+        menu = get_object_or_404(Menu, id=self.kwargs["menu"])
+        kwargs = super().get_form_kwargs()
+        kwargs['meal_options'] = menu.meal_options.all()
+        return kwargs
 
     def get_initial(self):
         initial = super().get_initial()
