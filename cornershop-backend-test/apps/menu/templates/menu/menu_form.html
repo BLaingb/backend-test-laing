@@ -6,6 +6,16 @@
     <header>
         <h2>New menu</h2>
     </header>
+    {% if favorite_options %}
+        <div class="card shadow-sm p-3">
+            <p>The employees favorite options are:</p>
+            <ol>
+                {% for meal in favorite_options %}
+                    <li>{{meal}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    {% endif %}
     <main class="mt-2">
         <form method="post">
             {% csrf_token %}

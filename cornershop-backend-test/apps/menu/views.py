@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Count
 from backend_test.envtools import getenv
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -27,6 +28,15 @@ class MenuCreateView(CreateView):
     form_class = MenuForm
     success_url = reverse_lazy("menu-list")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["favorite_options"] = (
+            MealOption.objects.all()
+            .annotate(times_requested=Count("meal"))
+            .order_by("-times_requested")[:3]
+        )
+        return context
+
     def form_valid(self, form: MenuForm):
         if form.cleaned_data["notify_now"]:
             form.instance.notify(save=False)
@@ -52,7 +62,7 @@ class MealCreateView(CreateView):
     def get_form_kwargs(self):
         menu = get_object_or_404(Menu, id=self.kwargs["menu"])
         kwargs = super().get_form_kwargs()
-        kwargs['meal_options'] = menu.meal_options.all()
+        kwargs["meal_options"] = menu.meal_options.all()
         return kwargs
 
     def get_initial(self):
