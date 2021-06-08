@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, ListView
 from django.views.generic.base import TemplateView, View
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 
 from .forms import MealForm, MealOptionForm, MenuForm
 from .models import Meal, MealOption, Menu
