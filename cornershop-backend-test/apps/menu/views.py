@@ -7,26 +7,30 @@ from django.utils import timezone
 from django.views.generic import CreateView, ListView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from .forms import MealForm, MealOptionForm, MenuForm
 from .models import Meal, MealOption, Menu
 
 
 # Create your views here.
-class MealOptionCreateView(CreateView):
+class MealOptionCreateView(CreateView, PermissionRequiredMixin):
     model = MealOption
     form_class = MealOptionForm
     success_url = reverse_lazy("meal-option-create")
+    permission_required = 'menu.add_mealoption'
 
 
 class MenuListView(ListView):
     model = Menu
+    permission_required = 'menu.view_menu'
 
 
-class MenuCreateView(CreateView):
+class MenuCreateView(CreateView, PermissionRequiredMixin):
     model = Menu
     form_class = MenuForm
     success_url = reverse_lazy("menu-list")
+    permission_required = 'menu.add_menu'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,8 +47,9 @@ class MenuCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MenuDetailView(DetailView):
+class MenuDetailView(DetailView, PermissionRequiredMixin):
     model = Menu
+    permission_required = ('menu.view_menu', 'nenu.view_meal')
 
 
 class MealCreateView(CreateView):
@@ -75,9 +80,10 @@ class MealSuccessView(TemplateView):
     template_name = "menu/meal_success.html"
 
 
-class MenuNotify(View):
+class MenuNotify(View, PermissionRequiredMixin):
     model = Menu
     http_method_names = ["post", "options"]
+    permission_required = 'menu.change_menu'
 
     def post(self, _, pk):
         menu = get_object_or_404(Menu, id=pk)
